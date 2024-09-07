@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271131085251",
+    "project_id": "mimo-to",
+    "storage_bucket": "mimo-to.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271131085251:android:e1440bdbdb9bce71ba9576",
+        "android_client_info": {
+          "package_name": "com.example.mimo_to"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg_S7f4RIwhHVQIO4M6Pqe5CpESpvPVok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
