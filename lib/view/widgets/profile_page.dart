@@ -1,25 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/controller/theme_controller.dart';
+import 'package:mimo_to/model/auth_model.dart';
+import 'package:mimo_to/view/login_page.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  ProfilePage({super.key});
+  String? userPhotoUrl = FirebaseAuth.instance.currentUser?.photoURL;
+  String? userid = FirebaseAuth.instance.currentUser?.uid;
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.find();
+    final provider = Provider.of<AuthController>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text("Settings")),
         actions: [
-          ElevatedButton(
-            onPressed: () {
-              themeController.toggleTheme();
+          Selector<ThemeController, bool>(
+            selector: (context, themeProvider) => themeProvider.isDarkMode,
+            builder: (context, isDarkMode, child) {
+              return IconButton(
+                onPressed: Provider.of<ThemeController>(context, listen: false)
+                    .toggleTheme,
+                icon: Icon(
+                  isDarkMode ? Icons.brightness_2 : Icons.brightness_7,
+                ),
+              );
             },
-            child: Text('Toggle Theme'),
-          ),
+          )
         ],
       ),
       body: Column(
@@ -31,15 +44,39 @@ class ProfilePage extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CircleAvatar(
-                      maxRadius: 30,
+                    ClipRRect(
+                      child: CircleAvatar(
+                        backgroundImage: userPhotoUrl != null
+                            ? NetworkImage(userPhotoUrl ?? "")
+                            : const AssetImage('assets/images (4).jpeg')
+                                as ImageProvider,
+                        maxRadius: 30,
+                      ),
                     ),
                     Gap(20),
-                    Column(
-                      children: [
-                        Text("data"),
-                        Text("data"),
-                      ],
+                    FutureBuilder<UserModel?>(
+                      future: provider.getUserData(context, userid ?? ""),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (!snapshot.hasData || snapshot.data == null) {
+                          return const Center(
+                              child: Text('No user data available'));
+                        } else {
+                          final user = snapshot.data!;
+
+                          return Column(
+                            children: [
+                              Text(user.username ?? ""),
+                            ],
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -58,8 +95,7 @@ class ProfilePage extends StatelessWidget {
           Gap(10),
           Padding(
             padding: const EdgeInsets.all(14),
-            child: Text(
-                "Hi! My Name is ...., I'm a community manager from Rabat.Morocco"),
+            child: Text("Hi! I'm a community manager from Rabat.Morocco"),
           ),
           Gap(30),
           ListTile(
@@ -80,6 +116,17 @@ class ProfilePage extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.notification_important),
             title: Text("About"),
+          ),
+          Gap(6),
+          GestureDetector(
+            onTap: () {
+              FirebaseAuth.instance.signOut();
+              Get.offAll(() => LoginPage());
+            },
+            child: ListTile(
+              leading: Icon(Icons.output_outlined),
+              title: Text("LogOut"),
+            ),
           ),
           Gap(6),
         ],

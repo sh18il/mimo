@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:mimo_to/model/todo_model.dart';
 
 class TodoService {
-  String refrence = "Todo";
+  String reference = "Todo";
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late CollectionReference<TodoModel> addPost =
-      firestore.collection(refrence).withConverter<TodoModel>(
+      firestore.collection(reference).withConverter<TodoModel>(
             fromFirestore: (snapshot, options) =>
                 TodoModel.fromJson(snapshot.data() ?? {}),
             toFirestore: (value, options) => value.toJson(),

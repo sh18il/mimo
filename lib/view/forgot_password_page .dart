@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/service/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});
@@ -78,8 +80,9 @@ class ForgotPasswordPage extends StatelessWidget {
   }
 
   forgetPass(BuildContext context) async {
-    AuthService service = AuthService();
-    await service.forgotPassword(context, passwordCtrl.text).then((_) {
+    final authController = Provider.of<AuthController>(context, listen: false);
+
+    await authController.forgotPassword(context, passwordCtrl.text).then((_) {
       Navigator.pop(context);
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(

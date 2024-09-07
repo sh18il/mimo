@@ -4,10 +4,11 @@ import 'package:gap/gap.dart';
 
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:mimo_to/service/auth_service.dart';
+import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/view/forgot_password_page%20.dart';
 import 'package:mimo_to/view/home_page.dart';
 import 'package:mimo_to/view/register_page.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -98,9 +99,10 @@ class LoginPage extends StatelessWidget {
   }
 
   login(context) async {
-    AuthService service = AuthService();
+    final provide = Provider.of<AuthController>(context, listen: false);
+
     User? user =
-        await service.signin(context, emailCtrl.text, passwordCtrl.text);
+        await provide.signin(context, emailCtrl.text, passwordCtrl.text);
     if (user != null) {
       print("user secssus full login");
       await Navigator.of(context).pushAndRemoveUntil(

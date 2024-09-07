@@ -1,40 +1,56 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/controller/theme_controller.dart';
+import 'package:mimo_to/controller/tasks_controller.dart';
+import 'package:mimo_to/controller/todo_controller.dart';
 import 'package:mimo_to/firebase_options.dart';
-import 'package:mimo_to/view/login_page.dart';
 import 'package:mimo_to/view/widgets/auuth.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
+
+  runApp(const MyApp());
 }
 
-final ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primarySwatch: Colors.blue,
-);
-
-final ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primarySwatch: Colors.blue,
-);
-
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  final ThemeController themeController = Get.put(ThemeController());
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AuthPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TaskController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TodoController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeController(),
+        ),
+      ],
+      child: Consumer<ThemeController>(
+        builder: (context, themeController, child) {
+          return GetMaterialApp(
+            theme: themeController.lightTheme,
+            darkTheme: themeController.darkTheme,
+            themeMode:
+                themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            debugShowCheckedModeBanner: false,
+            home: AuthPage(),
+          );
+        },
+      ),
     );
   }
 }

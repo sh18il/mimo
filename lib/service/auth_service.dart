@@ -12,7 +12,6 @@ class AuthService {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
       User? user = credential.user;
 
       if (user != null) {
@@ -28,7 +27,6 @@ class AuthService {
             .set(newUser.toJson());
 
         await sendEmailVerification(context);
-
         return user;
       }
       return null;
@@ -76,6 +74,17 @@ class AuthService {
         SnackBar(content: Text(e.message ?? 'Failed to send email')),
       );
     }
+  }
+
+  Future<UserModel?> getUserData(BuildContext context, String userId) async {
+    try {
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(userId).get();
+      return UserModel.fromJson(doc.data() as Map<String, dynamic>);
+    } catch (e) {
+      ShowSnackBar(context, "Getting data error: $e");
+    }
+    return null;
   }
 }
 

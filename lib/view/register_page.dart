@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
+import 'package:mimo_to/controller/auth_controller.dart';
+import 'package:mimo_to/view/home_page.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -79,10 +81,10 @@ class RegisterPage extends StatelessWidget {
                 ElevatedButton(
                   style: ButtonStyle(
                     fixedSize:
-                        MaterialStateProperty.all(Size.fromWidth(width * 0.9)),
-                    shape: MaterialStateProperty.all(BeveledRectangleBorder(
+                        WidgetStateProperty.all(Size.fromWidth(width * 0.9)),
+                    shape: WidgetStateProperty.all(BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(2))),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 28, 97, 153)),
                   ),
                   onPressed: () {
@@ -115,46 +117,26 @@ class RegisterPage extends StatelessWidget {
   }
 
   void register(BuildContext context) async {
-    if (passwordCtrl.text != confirmPasswordCtrl.text) {
+    final authController = Provider.of<AuthController>(context, listen: false);
+
+    User? user = await authController.signup(
+        context, usernameCtrl.text, emailCtrl.text, passwordCtrl.text);
+
+    if (user != null) {
+      print("User successfully logged in");
+
+      await Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => HomePage(),
+        ),
+        (route) => false,
+      );
+    } else {
+      print("An error occurred during login");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Passwords do not match'),
-        ),
-      );
-      return;
-    }
-
-    try {
-      // Set locale for Firebase
-      FirebaseAuth.instance
-          .setLanguageCode('en'); // Set to 'en' or your preferred language
-
-      // Attempt to create a user
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailCtrl.text.trim(),
-        password: passwordCtrl.text.trim(),
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registration Successful'),
-        ),
-      );
-
-      // Navigate to the next screen or perform any other action
-    } on FirebaseAuthException catch (e) {
-      String errorMessage = 'Registration failed';
-      if (e.code == 'email-already-in-use') {
-        errorMessage = 'The email is already in use.';
-      } else if (e.code == 'invalid-email') {
-        errorMessage = 'The email is invalid.';
-      } else if (e.code == 'weak-password') {
-        errorMessage = 'The password is too weak.';
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-        ),
+            content: Text(
+                'Login failed. Please check your credentials and try again.')),
       );
     }
   }
