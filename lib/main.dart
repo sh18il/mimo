@@ -7,6 +7,7 @@ import 'package:mimo_to/controller/tasks_controller.dart';
 import 'package:mimo_to/controller/todo_controller.dart';
 import 'package:mimo_to/firebase_options.dart';
 import 'package:mimo_to/view/widgets/auuth.dart';
+import 'package:mimo_to/view/widgets/splash_page.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
             themeMode:
                 themeController.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
-            home: AuthPage(),
+            home: SplashScreen(),
           );
         },
       ),
