@@ -21,14 +21,14 @@ class ProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: Center(child: Text("Settings")),
         actions: [
-          Selector<ThemeController, bool>(
-            selector: (context, themeProvider) => themeProvider.isDarkMode,
-            builder: (context, isDarkMode, child) {
+          Consumer<ThemeController>(
+            builder: (context, themeController, child) {
               return IconButton(
-                onPressed: Provider.of<ThemeController>(context, listen: false)
-                    .toggleTheme,
+                onPressed: () => themeController.toggleTheme(),
                 icon: Icon(
-                  isDarkMode ? Icons.brightness_2 : Icons.brightness_7,
+                  themeController.isDarkMode
+                      ? Icons.brightness_2
+                      : Icons.brightness_7,
                 ),
               );
             },
