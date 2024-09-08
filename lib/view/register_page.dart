@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/view/forgot_password_page%20.dart';
 import 'package:mimo_to/view/home_page.dart';
@@ -41,10 +39,10 @@ class RegisterPage extends StatelessWidget {
                   "Create an Account",
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
                 ),
-                Gap(20),
+                const Gap(20),
               ],
             ),
-            Gap(20),
+            const Gap(20),
             Column(
               children: [
                 TextFormField(
@@ -52,20 +50,20 @@ class RegisterPage extends StatelessWidget {
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: "Full Name"),
                 ),
-                Gap(15),
+                const Gap(15),
                 TextFormField(
                   controller: emailCtrl,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: "Email"),
                 ),
-                Gap(15),
+                const Gap(15),
                 TextFormField(
                   controller: passwordCtrl,
                   obscureText: true,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: "Password"),
                 ),
-                Gap(15),
+                const Gap(15),
                 TextFormField(
                   controller: confirmPasswordCtrl,
                   obscureText: true,
@@ -73,7 +71,7 @@ class RegisterPage extends StatelessWidget {
                       border: OutlineInputBorder(),
                       labelText: "Confirm Password"),
                 ),
-                Gap(5),
+                const Gap(5),
                 Row(
                   children: [
                     TextButton(
@@ -84,11 +82,12 @@ class RegisterPage extends StatelessWidget {
                         child: const Text("Forgot Password?")),
                   ],
                 ),
-                Gap(15),
+                const Gap(15),
                 ElevatedButton(
                   style: ButtonStyle(
-                    fixedSize:
-                        WidgetStateProperty.all(Size.fromWidth(width * 0.9)),
+                    fixedSize: WidgetStateProperty.all(
+                      Size(width * 0.9, 60),
+                    ),
                     shape: WidgetStateProperty.all(BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(2))),
                     backgroundColor: WidgetStateProperty.all(
@@ -102,7 +101,7 @@ class RegisterPage extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                Gap(50),
+                const Gap(50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -134,7 +133,7 @@ class RegisterPage extends StatelessWidget {
 
       await Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => const HomePage(),
         ),
         (route) => false,
       );

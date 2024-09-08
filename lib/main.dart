@@ -6,10 +6,8 @@ import 'package:mimo_to/controller/theme_controller.dart';
 import 'package:mimo_to/controller/tasks_controller.dart';
 import 'package:mimo_to/controller/todo_controller.dart';
 import 'package:mimo_to/firebase_options.dart';
-import 'package:mimo_to/view/widgets/auuth.dart';
 import 'package:mimo_to/view/widgets/splash_page.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

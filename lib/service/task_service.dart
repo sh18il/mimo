@@ -18,10 +18,6 @@ class TaskService {
     } catch (e) {}
   }
 
-  // Stream<QuerySnapshot<ModelKeepNotes>> getNotes() {
-  //   return postData.snapshots();
-  // }
-
   Future<void> deleteNotes(String id) async {
     try {
       await postData.doc(id).delete();

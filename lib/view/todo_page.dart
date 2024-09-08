@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +21,7 @@ class TodoPage extends StatelessWidget {
         title: Center(child: Text(task)),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {},
           ),
         ],
@@ -38,6 +36,7 @@ class TodoPage extends StatelessWidget {
               context: context,
               builder: (context) {
                 return Dialog(
+                  backgroundColor: Colors.transparent,
                   shape: BeveledRectangleBorder(
                     borderRadius: BorderRadius.circular(2),
                   ),
@@ -53,7 +52,7 @@ class TodoPage extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              icon: Icon(Icons.close),
+                              icon: const Icon(Icons.close),
                             ),
                           ),
                         ),
@@ -64,8 +63,10 @@ class TodoPage extends StatelessWidget {
                             taskCtrl.clear();
                           },
                           controller: taskCtrl,
-                          decoration: InputDecoration(
-                            hintText: 'Enter task details',
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Type your Task...',
                           ),
                         ),
                       ],
@@ -75,7 +76,7 @@ class TodoPage extends StatelessWidget {
               },
             );
           },
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
       body: StreamBuilder<QuerySnapshot<TodoModel>>(
@@ -85,11 +86,11 @@ class TodoPage extends StatelessWidget {
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No tasks available'));
+            return const Center(child: Text('No tasks available'));
           } else {
             final tasks = snapshot.data!.docs;
 
@@ -101,8 +102,8 @@ class TodoPage extends StatelessWidget {
                   leading: Transform.scale(
                     scale: 1.4,
                     child: Checkbox(
-                      side:
-                          BorderSide(strokeAlign: BorderSide.strokeAlignInside),
+                      side: const BorderSide(
+                          strokeAlign: BorderSide.strokeAlignInside),
                       activeColor: Colors.green,
                       shape: BeveledRectangleBorder(
                           borderRadius: BorderRadius.circular(6)),

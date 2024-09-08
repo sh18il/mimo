@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/controller/theme_controller.dart';
 import 'package:mimo_to/model/auth_model.dart';
@@ -19,7 +18,7 @@ class ProfilePage extends StatelessWidget {
     final provider = Provider.of<AuthController>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("Settings")),
+        title: const Center(child: Text("Settings")),
         actions: [
           Consumer<ThemeController>(
             builder: (context, themeController, child) {
@@ -53,7 +52,7 @@ class ProfilePage extends StatelessWidget {
                         maxRadius: 30,
                       ),
                     ),
-                    Gap(20),
+                    const Gap(20),
                     FutureBuilder<UserModel?>(
                       future: provider.getUserData(context, userid ?? ""),
                       builder: (context, snapshot) {
@@ -84,7 +83,7 @@ class ProfilePage extends StatelessWidget {
                   backgroundColor: Colors.black,
                   child: IconButton(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         color: Colors.white,
                       )),
@@ -92,43 +91,43 @@ class ProfilePage extends StatelessWidget {
               ],
             ),
           ),
-          Gap(10),
-          Padding(
-            padding: const EdgeInsets.all(14),
+          const Gap(10),
+          const Padding(
+            padding: EdgeInsets.all(14),
             child: Text("Hi! I'm a community manager from Rabat.Morocco"),
           ),
-          Gap(30),
-          ListTile(
+          const Gap(30),
+          const ListTile(
             leading: Icon(Icons.notifications),
             title: Text("Notification"),
           ),
-          Gap(6),
-          ListTile(
+          const Gap(6),
+          const ListTile(
             leading: Icon(Icons.settings),
             title: Text("Genaral"),
           ),
-          Gap(6),
-          ListTile(
+          const Gap(6),
+          const ListTile(
             leading: Icon(Icons.person),
             title: Text("Account"),
           ),
-          Gap(6),
-          ListTile(
+          const Gap(6),
+          const ListTile(
             leading: Icon(Icons.notification_important),
             title: Text("About"),
           ),
-          Gap(6),
+          const Gap(6),
           GestureDetector(
             onTap: () {
               FirebaseAuth.instance.signOut();
               Get.offAll(() => LoginPage());
             },
-            child: ListTile(
+            child: const ListTile(
               leading: Icon(Icons.output_outlined),
               title: Text("LogOut"),
             ),
           ),
-          Gap(6),
+          const Gap(6),
         ],
       ),
     );

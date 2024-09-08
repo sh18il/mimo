@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:mimo_to/view/widgets/auuth.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,13 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Image(
+              Image(
                   image: AssetImage("assets/todo_app_ui-removebg-preview.png")),
-              const Text(
+              Text(
                 "WELCOME",
                 style: TextStyle(
                     color: Colors.white70,

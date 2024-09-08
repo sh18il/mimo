@@ -8,7 +8,6 @@ import 'package:mimo_to/model/task_model.dart';
 import 'package:mimo_to/model/todo_model.dart';
 import 'package:mimo_to/service/task_service.dart';
 import 'package:mimo_to/service/todo_service.dart';
-import 'package:mimo_to/view/login_page.dart';
 import 'package:mimo_to/view/todo_page.dart';
 import 'package:mimo_to/view/widgets/profile_page.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +49,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 elevation: 8,
-                child: Container(
+                child: SizedBox(
                   width: width,
                   height: 100,
                   child: Row(
@@ -65,10 +64,10 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       const Gap(10),
-                      Column(
+                      const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text("The memories is a shield and life helper"),
                           Text("Tamim AI - Barghouti")
                         ],
@@ -86,7 +85,7 @@ class HomePage extends StatelessWidget {
                       TaskModel(uId: currentuserId), currentuserId ?? ""),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else if (snapshot.hasError) {
@@ -112,7 +111,7 @@ class HomePage extends StatelessWidget {
                               onTap: () {
                                 _showAddItemDialog(context);
                               },
-                              child: Card(
+                              child: const Card(
                                 elevation: 4,
                                 child: Center(
                                   child: CircleAvatar(
@@ -129,7 +128,7 @@ class HomePage extends StatelessWidget {
                               child: Card(
                                 elevation: 8,
                                 child: Container(
-                                  decoration: BoxDecoration(),
+                                  decoration: const BoxDecoration(),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
@@ -138,14 +137,14 @@ class HomePage extends StatelessWidget {
                                       children: [
                                         Text(
                                           task.description ?? "",
-                                          style: TextStyle(fontSize: 30),
+                                          style: const TextStyle(fontSize: 30),
                                         ),
-                                        Gap(15),
+                                        const Gap(15),
                                         Text(
                                           task.title ?? 'No Title',
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -159,7 +158,7 @@ class HomePage extends StatelessWidget {
                                               builder: (context, snapshot) {
                                                 if (snapshot.connectionState ==
                                                     ConnectionState.waiting) {
-                                                  return Center(
+                                                  return const Center(
                                                       child: Text("0 Tasks"));
                                                 } else if (snapshot.hasError) {
                                                   return Center(
@@ -168,7 +167,7 @@ class HomePage extends StatelessWidget {
                                                 } else if (!snapshot.hasData ||
                                                     snapshot
                                                         .data!.docs.isEmpty) {
-                                                  return Text('0 Tasks');
+                                                  return const Text('0 Tasks');
                                                 } else {
                                                   final tasks =
                                                       snapshot.data!.docs;
@@ -179,7 +178,7 @@ class HomePage extends StatelessWidget {
                                             ),
                                             IconButton(
                                                 onPressed: () {},
-                                                icon: Icon(
+                                                icon: const Icon(
                                                     Icons.more_vert_outlined))
                                           ],
                                         )
@@ -193,7 +192,7 @@ class HomePage extends StatelessWidget {
                         },
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Text('No data available.'),
                       );
                     }
@@ -209,52 +208,78 @@ class HomePage extends StatelessWidget {
 
   void _showAddItemDialog(BuildContext context) {
     TextEditingController titleController = TextEditingController();
-    TextEditingController iconController = TextEditingController(text: "🏡");
+    TextEditingController iconController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
+          backgroundColor: Colors.transparent,
+          buttonPadding: EdgeInsets.zero,
+          elevation: 8,
+          shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(3)),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextField(
-                keyboardType: TextInputType.text,
-                controller: iconController,
-                decoration: const InputDecoration(
-                  hintText: "🏡",
-                  hintStyle: TextStyle(fontSize: 30),
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 15.0),
-                ),
-              ),
-              TextField(
-                onSubmitted: (value) {
-                  String title = titleController.text;
-                  String icon = iconController.text;
-                  if (title.isNotEmpty && icon.isNotEmpty) {
-                    _addItem(
-                        context, title, icon); // Call the method to add item
-                    Navigator.of(context).pop(); // Close the dialog
-                  }
-                },
-                controller: titleController,
-                decoration: const InputDecoration(
-                  hintText: "Title",
-                  border: InputBorder.none,
+              CircleAvatar(
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+          content: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 18),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Gap(10),
+                  TextField(
+                    style: const TextStyle(fontSize: 37),
+                    keyboardType: TextInputType.text,
+                    controller: iconController,
+                    decoration: const InputDecoration(
+                      counterStyle: TextStyle(fontSize: 17),
+                      hintText: "🏡",
+                      hintStyle: TextStyle(fontSize: 30),
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  TextField(
+                    style: const TextStyle(fontSize: 27),
+                    onSubmitted: (value) {
+                      String title = titleController.text;
+                      String icon = iconController.text;
+                      if (title.isNotEmpty && icon.isNotEmpty) {
+                        _addItem(context, title, icon);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    controller: titleController,
+                    decoration: const InputDecoration(
+                      hintText: "Title",
+                      border: InputBorder.none,
+                    ),
+                  ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "0 Tasks",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  const Gap(10)
+                ],
+              ),
             ),
-          ],
+          ),
         );
       },
     );

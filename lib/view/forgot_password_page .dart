@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:mimo_to/controller/auth_controller.dart';
-import 'package:mimo_to/service/auth_service.dart';
 import 'package:mimo_to/view/login_page.dart';
+import 'package:mimo_to/view/register_page.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -29,12 +29,12 @@ class ForgotPasswordPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    icon: Icon(Icons.arrow_back)),
-                Text(
+                    icon: const Icon(Icons.arrow_back)),
+                const Text(
                   "Forgot Password",
                   style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
                 ),
-                Gap(20)
+                const Gap(20)
               ],
             ),
             Padding(
@@ -43,10 +43,10 @@ class ForgotPasswordPage extends StatelessWidget {
                 children: [
                   TextFormField(
                     controller: passwordCtrl,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         border: OutlineInputBorder(), labelText: "Email"),
                   ),
-                  Column(
+                  const Column(
                     children: [
                       Text(
                         "Enter the email address You used to create your account and",
@@ -58,22 +58,36 @@ class ForgotPasswordPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Gap(15),
+                  const Gap(15),
                   ElevatedButton(
                       style: ButtonStyle(
-                          fixedSize: WidgetStatePropertyAll(
-                              Size.copy(Size.fromWidth(width))),
+                          fixedSize: WidgetStateProperty.all(
+                            Size(width * 0.9, 60),
+                          ),
                           shape: WidgetStatePropertyAll(BeveledRectangleBorder(
                               borderRadius: BorderRadius.circular(2))),
-                          backgroundColor: WidgetStatePropertyAll(
-                              const Color.fromARGB(255, 28, 97, 153))),
+                          backgroundColor: const WidgetStatePropertyAll(
+                              Color.fromARGB(255, 28, 97, 153))),
                       onPressed: () {
                         forgetPass(context);
                       },
-                      child: Text(
+                      child: const Text(
                         "CONTINUW",
                         style: TextStyle(color: Colors.white),
                       )),
+                  const Gap(40),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Don't have an account?"),
+                      TextButton(
+                          onPressed: () {
+                            Get.to(() => RegisterPage(),
+                                transition: Transition.fadeIn);
+                          },
+                          child: const Text("Register"))
+                    ],
+                  )
                 ],
               ),
             ),
