@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:mimo_to/controller/auth_controller.dart';
 import 'package:mimo_to/service/auth_service.dart';
+import 'package:mimo_to/view/login_page.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
@@ -65,7 +67,9 @@ class ForgotPasswordPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(2))),
                           backgroundColor: WidgetStatePropertyAll(
                               const Color.fromARGB(255, 28, 97, 153))),
-                      onPressed: () {},
+                      onPressed: () {
+                        forgetPass(context);
+                      },
                       child: Text(
                         "CONTINUW",
                         style: TextStyle(color: Colors.white),
@@ -83,7 +87,7 @@ class ForgotPasswordPage extends StatelessWidget {
     final authController = Provider.of<AuthController>(context, listen: false);
 
     await authController.forgotPassword(context, passwordCtrl.text).then((_) {
-      Navigator.pop(context);
+      Get.offAll(() => LoginPage());
     }).catchError((error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to reset password: $error')),

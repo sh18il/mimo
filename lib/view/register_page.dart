@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:mimo_to/controller/auth_controller.dart';
+import 'package:mimo_to/view/forgot_password_page%20.dart';
 import 'package:mimo_to/view/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +77,10 @@ class RegisterPage extends StatelessWidget {
                 Row(
                   children: [
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(() => ForgotPasswordPage(),
+                              transition: Transition.rightToLeft);
+                        },
                         child: const Text("Forgot Password?")),
                   ],
                 ),

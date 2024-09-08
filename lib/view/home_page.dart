@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 1.15,
+                          childAspectRatio: 1,
                         ),
                         itemCount: tasks.length + 1,
                         itemBuilder: (context, index) {
@@ -145,6 +145,7 @@ class HomePage extends StatelessWidget {
                                           task.title ?? 'No Title',
                                           style: TextStyle(fontSize: 20),
                                         ),
+                                        Spacer(),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
